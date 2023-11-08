@@ -5,20 +5,13 @@ const getUsers = async (req, res) => {
 }
 
 const createNewUser = async (req, res) => {
-    const { name, email } = req.body
+    try{
+        const user = await User.signUp(req.body)
 
-    const user = new User({
-        name,
-        email
-    })
-
-    user.save()
-    .then((data) => {
-        res.status(200).json(data)
-    })
-    .catch((err) => {
-        res.status(400).json(err)
-    })
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
 }
 
 module.exports = {
