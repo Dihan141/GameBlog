@@ -15,8 +15,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 mongoose.connect(process.env.MONGO_URI)
-.then(()=> console.log('Connected to mongoDB'))
-.catch(err => console.log(err))
+    .then(()=> console.log('Connected to mongoDB'))
+    .catch(err => console.log(err))
 
 app.use('/api/users', userRoutes)
 

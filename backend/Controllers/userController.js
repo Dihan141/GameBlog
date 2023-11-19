@@ -9,6 +9,18 @@ const getUsers = async (req, res) => {
     res.status(200).json({msg: "Get all users"})
 }
 
+const loginUser = async (req, res) => {
+    try{
+        const user = await User.login(req.body)
+
+        const token = createToken(user._id)
+        
+        res.status(200).json({msg: `You are now logged in as ${user.name}`, token})
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 const createNewUser = async (req, res) => {
     try{
         const user = await User.signUp(req.body)
@@ -22,5 +34,6 @@ const createNewUser = async (req, res) => {
 
 module.exports = {
     getUsers,
-    createNewUser
+    createNewUser,
+    loginUser
 }

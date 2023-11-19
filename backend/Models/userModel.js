@@ -23,6 +23,7 @@ const userSchema = new Schema({
     timestamps: true
 })
 
+//Static sign up function
 userSchema.statics.signUp = async function(userObj){
     const { name, email, password } = userObj
 
@@ -49,6 +50,26 @@ userSchema.statics.signUp = async function(userObj){
         password: hashedPassword
     })
 
+    return user
+}
+
+//Static login function
+userSchema.statics.login = async function(body){
+    const {email, password} = body
+
+    if(!email || !password)
+        throw Error('All fields must be filled.')
+
+    const user = await this.findOne({ email })
+
+    if(!user)
+        throw Error('Invalid email!')
+
+    const passMatch = await bcrypt.compare(password, user.password)
+
+    if(!passMatch)
+        throw Error('Incorrect password!')
+    
     return user
 }
 
