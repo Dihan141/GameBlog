@@ -32,8 +32,20 @@ const createNewUser = async (req, res) => {
     }
 }
 
+const protectedInfo = async (req, res) => {
+
+    try {
+        const user = await User.findById(req.user)
+
+        res.status(200).json({msg: `Congrats!! You uncovered ${user.name}'s secret`})
+    } catch (error) {
+        res.status(400).json({error: 'oops, try again!'})
+    }
+}
+
 module.exports = {
     getUsers,
     createNewUser,
-    loginUser
+    loginUser,
+    protectedInfo,
 }
