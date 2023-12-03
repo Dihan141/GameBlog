@@ -54,23 +54,23 @@ userSchema.statics.signUp = async function(userObj){
 }
 
 //Static login function
-userSchema.statics.login = async function(body){
-    const {email, password} = body
+// userSchema.statics.login = async function(body){
+//     const {email, password} = body
 
-    if(!email || !password)
-        throw Error('All fields must be filled.')
+//     if(!email || !password)
+//         throw Error('All fields must be filled.')
 
-    const user = await this.findOne({ email })
+//     const user = await this.findOne({ email })
 
-    if(!user)
-        throw Error('Invalid email!')
+//     if(!user)
+//         throw Error('Invalid email!')
 
-    const passMatch = await bcrypt.compare(password, user.password)
+//     const passMatch = await bcrypt.compare(password, user.password)
 
-    if(!passMatch)
-        throw Error('Incorrect password!')
+//     if(!passMatch)
+//         throw Error('Incorrect password!')
     
-    return user
-}
+//     return user
+// }
 
 module.exports = mongoose.model('User', userSchema)
