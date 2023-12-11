@@ -1,4 +1,5 @@
 const LocalStrategy = require('passport-local').Strategy
+const GoogleStrategy = require('passport-google-oauth20').Strategy
 const bcrypt = require('bcrypt')
 const User = require('../Models/userModel')
 const passport = require('passport')
@@ -26,6 +27,36 @@ const authenticateUser = async (email, password, done) => {
 }
 
 passport.use(new LocalStrategy({usernameField: 'email'}, authenticateUser))
+
+//google strategy
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:5000/api/users/google-auth"
+  },
+  async function(accessToken, refreshToken, profile, done) {
+    try {
+        console.log(profile)
+        const user = await User.findOne({ googleId: profile.id})
+
+        if(user){
+            return done(null, user)
+        }
+
+        const newUser = new User({
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            googleId: profile.id
+        })
+
+        await newUser.save()
+        done(null, newUser)
+    } catch(error) {
+        console.log(error)
+        done(error)
+    }
+  }
+))
 
 passport.serializeUser((user, done) => {
     done(null, user._id) })
