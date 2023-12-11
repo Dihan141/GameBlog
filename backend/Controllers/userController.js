@@ -24,13 +24,27 @@ const logoutUser = async (req, res) => {
     });
 }
 
+//google auth
+const googleLogin = (req, res, next) => {
+    passport.authenticate('google', {scope: ['profile', 'email']})(req, res, next)
+}
+
+const googleAuth = (req, res, next) => {
+    passport.authenticate('google', {
+        successRedirect: "/api/users/dashboard",
+        failureRedirect: "/api/users/login"
+    })(req, res, next)
+}
+
 const getLoginPage = async (req, res) => {
-    const filePath = path.join(__dirname, '..', 'DemoPages', 'login.ejs')
+    const filePath = path.join(__dirname, '..', 'Public', 'login.ejs')
     res.render(filePath)
 }
 
 const getDashboard = async (req, res) => {
-    res.status(200).json({msg: `Welcome to dashboard, ${req.user.name}`})
+    const filePath = path.join(__dirname, '..', 'Public', 'dashboard.ejs')
+    const user = req.user
+    res.render(filePath, { user })
 }
 
 const createNewUser = async (req, res) => {
@@ -46,9 +60,7 @@ const createNewUser = async (req, res) => {
 const protectedInfo = async (req, res) => {
 
     try {
-        const user = await User.findById(req.user)
-
-        res.status(200).json({msg: `Congrats!! You uncovered ${user.name}'s secret`})
+        res.status(200).json({msg: `Congrats!! You uncovered ${req.user.name}'s secret`})
     } catch (error) {
         res.status(400).json({error: 'oops, try again!'})
     }
@@ -61,5 +73,7 @@ module.exports = {
     protectedInfo,
     getLoginPage,
     getDashboard,
-    logoutUser
+    logoutUser,
+    googleLogin,
+    googleAuth,
 }

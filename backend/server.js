@@ -22,6 +22,7 @@ app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use(express.static('Public'))
 app.set('view-engine', 'ejs')
 app.use(cors())
 app.use(express.json())
