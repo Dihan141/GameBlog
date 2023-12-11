@@ -30,7 +30,7 @@ passport.use(new LocalStrategy({usernameField: 'email'}, authenticateUser))
 passport.serializeUser((user, done) => {
     done(null, user._id) })
 passport.deserializeUser((_id, done) => {
-    User.findById(_id)
+    User.findById(_id).select('-password')
     .then((user) => {
         done(null, user) })
     .catch((err) => done(err, null))

@@ -30,8 +30,7 @@ const getLoginPage = async (req, res) => {
 }
 
 const getDashboard = async (req, res) => {
-    const filePath = path.join(__dirname, '..', 'DemoPages', 'dashboard.ejs')
-    res.render(filePath)
+    res.status(200).json({msg: `Welcome to dashboard, ${req.user.name}`})
 }
 
 const createNewUser = async (req, res) => {
