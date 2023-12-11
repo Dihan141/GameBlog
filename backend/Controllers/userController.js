@@ -1,4 +1,4 @@
-const passport = require('passport')
+const passport = require('../Config/passport')
 const User = require('../Models/userModel')
 const path = require('path')
 
