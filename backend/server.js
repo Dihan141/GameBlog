@@ -10,10 +10,7 @@ const mongoose = require('mongoose')
 const app = express()
 
 const userRoutes = require('./Routes/userRoutes')
-const passport = require('passport')
-const initializePassport = require('./Config/passport')
-
-initializePassport(passport)
+const passport = require('./Config/passport')
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
