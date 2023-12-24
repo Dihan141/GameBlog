@@ -11,6 +11,7 @@ const app = express()
 
 const userRoutes = require('./Routes/userRoutes')
 const authRoutes = require('./Routes/authRoutes')
+const postRoutes = require('./Routes/postRoutes')
 const passport = require('./Config/passport')
 
 app.use(session({
@@ -36,6 +37,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use('/api/users', userRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/posts', postRoutes)
 
 app.listen(PORT, ()=>{
     console.log(`Server started on port ${PORT}`)
