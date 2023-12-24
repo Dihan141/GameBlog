@@ -16,7 +16,6 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        unique: true,
     },
     googleId: {
         type: String,
@@ -53,7 +52,12 @@ userSchema.statics.signUp = async function(userObj){
         password: hashedPassword
     })
 
-    return user
+    const retUser = {
+        name: user.name,
+        email: user.email,
+        _id: user._id
+    }
+    return retUser
 }
 
 //Static login function
