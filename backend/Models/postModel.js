@@ -17,6 +17,14 @@ const postSchema = new Schema({
 
     uid: {
         type: String
+    },
+
+    images: {
+        type: [String] 
+    },
+
+    videos: {
+        type: [String]
     }
 },{
     timestamps: true
