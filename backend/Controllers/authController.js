@@ -39,7 +39,12 @@ const getLoginPage = async (req, res) => {
 const getDashboard = async (req, res) => {
     const filePath = path.join(__dirname, '..', 'Public', 'dashboard.ejs')
     const user = req.user
-    res.render(filePath, { user })
+
+    if(user.verified)
+        res.render(filePath, { user })
+    else{
+        res.status(400).json({msg: 'Your account is not verified'})
+    }
 }
 
 module.exports = {

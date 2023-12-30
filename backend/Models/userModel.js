@@ -27,6 +27,11 @@ const userSchema = new Schema({
     
     profilePic: {
         type: String,
+    },
+
+    verified: {
+        type: Boolean,
+        default: false
     }
 },{
     timestamps: true

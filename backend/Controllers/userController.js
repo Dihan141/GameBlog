@@ -11,6 +11,30 @@ const createNewUser = async (req, res) => {
     try{
         const user = await User.signUp(req.body)
 
+        const mailDetails = {
+            from: process.env.GMAIL,
+            to: user.email,
+            subject: 'Account activation',
+            html: `<p> Hello ${user.name},</p>
+            <p>Please click the link below to activate your account:</p>
+            <a href=http://localhost:5000/api/users/activate/${user._id}
+            style="display: inline-block; 
+            padding: 10px 20px; 
+            background-color: #4CAF50; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px;"
+            >Activate Account</a>`
+        } 
+
+        mailTransporter.sendMail(mailDetails, (err, info) => {
+            if(err){
+                console.log(err)
+            } else {
+                console.log('Mail sent!')
+            }
+        })
+
         res.status(200).json(user)
     } catch (error) {
         res.status(400).json({error: error.message})
@@ -26,24 +50,14 @@ const protectedInfo = async (req, res) => {
     }
 }
 
-const mailTest = async (req, res) => {
+const activateUserAccount = async (req, res) => {
     try {
-        const mailDetails = {
-            from: process.env.GMAIL,
-            to: 'nazmulhossain@iut-dhaka.edu',
-            subject: 'testing',
-            text: 'GameBlogs first mail. Yayyyy... Anyway, fak you NM'
-        }
-        
-        mailTransporter.sendMail(mailDetails, (err, info) => {
-            if(err){
-                console.log(err)
-            } else {
-                console.log(info)
-            }
-        })
+        const id = req.params.id
+
+        await User.findByIdAndUpdate(id, { verified: true})
+        res.status(200).json({msg: 'Your account has been activated.'})
     } catch (error) {
-        console.log(error)
+        res.status(400).json(error)
     }
 }
 
@@ -51,5 +65,5 @@ module.exports = {
     getUsers,
     createNewUser,
     protectedInfo,
-    mailTest,
+    activateUserAccount,
 }
