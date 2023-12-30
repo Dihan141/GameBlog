@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { loginUser, getLoginPage, logoutUser, googleAuth, googleLogin, getDashboard } = require('../Controllers/authController')
+const { loginUser, getLoginPage, logoutUser, googleAuth, googleLogin, getDashboard, getAuthStatus } = require('../Controllers/authController')
 
 //google auth routes
 router.get('/google-auth', googleAuth)
@@ -10,6 +10,8 @@ router.get('/google-login', googleLogin)
 router.post('/login', loginUser)
 router.get('/login', getLoginPage)
 router.get('/logout', logoutUser)
+
+router.get('/auth-status', getAuthStatus)
 
 router.get('/dashboard', getDashboard)
 
