@@ -27,7 +27,8 @@ const googleLogin = (req, res, next) => {
 const googleAuth = (req, res, next) => {
     passport.authenticate('google', {
         successRedirect: "/api/auth/dashboard",
-        failureRedirect: "/api/auth/login"
+        failureRedirect: "/api/auth/login",
+        failureFlash: true
     })(req, res, next)
 }
 

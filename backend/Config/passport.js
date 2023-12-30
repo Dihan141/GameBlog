@@ -43,6 +43,12 @@ passport.use(new GoogleStrategy({
             return done(null, user)
         }
 
+        const mailExists = await User.findOne({ email: profile.emails[0].value})
+
+        if(mailExists){
+            return done(null, false, { message: 'User already exists with this email.' })
+        }
+
         const newUser = new User({
             name: profile.displayName,
             email: profile.emails[0].value,
