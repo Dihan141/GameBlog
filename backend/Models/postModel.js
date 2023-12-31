@@ -19,13 +19,60 @@ const postSchema = new Schema({
         type: String
     },
 
+    imgCount: {
+        type: Number,
+        default: 0
+    },
+
     images: {
         type: [String] 
     },
 
+    vidCount: {
+        type: Number,
+        default: 0
+    },
+
     videos: {
         type: [String]
-    }
+    },
+
+    //review section
+    graphics: {
+        type: String
+    },
+
+    story: {
+        type: String
+    },
+
+    gameplay: {
+        type: String
+    },
+
+    soundtracks: {
+        type: String
+    },
+
+    difficulty: {
+        type: String
+    },
+
+    grind: {
+        type: String
+    },
+
+    gametime: {
+        type: String
+    },
+
+    bugs: {
+        type: String
+    },
+
+    rating: {
+        type: String
+    },
 },{
     timestamps: true
 })

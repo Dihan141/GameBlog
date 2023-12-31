@@ -1,40 +1,28 @@
 const Post = require('../Models/postModel')
 const path = require('path')
 const fs = require('fs')
+const ReviewPostStrategy = require('../Classes/ReviewStrategy')
+const NormalPostStrategy = require('../Classes/NormalStrategy')
 
 const createPost = async (req, res) => {
     try {
         const uid = req.user._id
 
-        const { postType, body } = req.body
+        const reqBody = req.body
 
-        const imageUrls = req.files['image'].map(image => image.filename)
+        const postType = reqBody.postType
 
-        const videoUrls = req.files['video'].map((video) => {
-            newName = video.filename + '.mp4'
-            newUrl = path.join('Uploads', 'postImage', newName)
-            fs.renameSync(video.path, newUrl)
-            return newName
-        })
+        let postStrategy
 
-        if(!postType){
-            return res.status(400).json({msg: 'post type is required'})
+        if(postType === 'review'){
+            postStrategy = new ReviewPostStrategy()    
+        } else {
+            postStrategy = new NormalPostStrategy()
         }
 
-        if(!body){
-            return res.status(400).json({msg: 'post body is required'})
-        }
+        const rPost = await postStrategy.createPost(reqBody, req.user, req.files)
 
-        const post = await Post.create({
-            author: req.user.name,
-            postType,
-            body,
-            uid,
-            images: imageUrls,
-            videos: videoUrls
-        })
-        
-        res.status(200).json(post)
+        res.status(200).json(rPost)
     } catch (error){
         res.status(400).json({msg: error})
     }
