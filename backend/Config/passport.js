@@ -19,6 +19,9 @@ const authenticateUser = async (email, password, done) => {
         if(!passMatch)
             return done(null, false, { message: 'Invalid credentials.' })
 
+        if(!user.verified)
+            return done(null, false, { message: 'User not verified' })
+            
         return done(null, user)
     } catch(error) {
         console.log(error)

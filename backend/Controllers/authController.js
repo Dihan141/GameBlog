@@ -33,7 +33,7 @@ const googleAuth = (req, res, next) => {
 }
 
 const getLoginPage = async (req, res) => {
-    const filePath = path.join(__dirname, '..', 'Public', 'login.ejs')
+    const filePath = path.join(__dirname, '..', 'Public', 'login', 'login.ejs')
     res.render(filePath)
 }
 
@@ -41,11 +41,7 @@ const getDashboard = async (req, res) => {
     const filePath = path.join(__dirname, '..', 'Public', 'dashboard.ejs')
     const user = req.user
 
-    if(user.verified)
-        res.render(filePath, { user })
-    else{
-        res.status(400).json({msg: 'Your account is not verified'})
-    }
+    res.render(filePath, { user })
 }
 
 module.exports = {
