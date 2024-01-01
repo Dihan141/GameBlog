@@ -39,7 +39,22 @@ const uploadVideoImage = multer({
     storage: postVideoImageFile
 })
 
+const commentImage = multer.diskStorage({
+    destination: function(req, file, done){
+        done(null, "Uploads/commentImage")
+    },
+    filename: function(req, file, done){
+        done(null, uuidv4() + "-" + Date.now() + path.extname(file.originalname))
+    }
+})
+
+const uploadCommentImage = multer({
+    storage: commentImage,
+    fileFilter
+})
+
 module.exports = {
     uploadProfileImage,
-    uploadVideoImage
+    uploadVideoImage,
+    uploadCommentImage
 }
