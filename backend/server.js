@@ -27,6 +27,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(express.static(path.join(__dirname, 'Public')))
+app.use(express.static('Uploads'))
 app.set('view-engine', 'ejs')
 app.use(cors())
 app.use(express.json())

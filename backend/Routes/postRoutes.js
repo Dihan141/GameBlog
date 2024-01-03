@@ -16,6 +16,6 @@ router.put('/update/:id', protect, uploadVideoImage.fields([
 
 router.delete('/delete/:id', protect, deletePost)
 router.get('/', protect, getUsersPost)
-router.get('/all/', protect, getAllPosts)
+router.get('/all', getAllPosts)
 
 module.exports = router
