@@ -1,0 +1,18 @@
+/* Dashboard.css */
+
+div {
+    margin: 20px;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  .blogs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  /* Add more styling as needed */
+  
